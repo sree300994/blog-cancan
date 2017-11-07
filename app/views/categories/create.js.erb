@@ -1,0 +1,8 @@
+<% if @category.errors.any? %>
+	$('#errorMsg').show();
+	$('#errorMsg').html("<%= escape_javascript render 'errors' %>");
+<% else %>
+	$('#myModal').modal('hide');
+	$('#errorMsg').hide();
+	$('#listCategories').append("<%= escape_javascript render 'category' %>");
+<% end %>

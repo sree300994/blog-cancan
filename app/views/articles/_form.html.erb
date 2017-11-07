@@ -20,6 +20,10 @@
     <%= f.text_area :body %>
   </div>
   <div class="field">
+    <label>Categories : </label><br>
+    <%= f.collection_check_boxes :category_ids, Category.all, :id, :name %> <br/>
+  </div>
+  <div class="field">
     <%= f.label :published_date %><br>
     <%= f.date_select :published_date %>
   </div>

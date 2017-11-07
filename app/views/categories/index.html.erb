@@ -1,34 +1,83 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-8">
+    <div class="page-header">
+      <h3>Listing Categories</h3>
+    </div>
 
-<h1>Listing Categories</h1>
+    <table class="table" id="listCategories">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <% @categories.each do |category| %>
+          <tr>
+            <td><%= link_to category.name, category %></td>
+            <td>
+              <% if can? :destroy, category %>
+                <%= link_to category, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" do %>
+                  <i class="glyphicon glyphicon-trash"></i>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @categories.each do |category| %>
-      <tr>
-        <td><%= category.name %></td>
-        <% if can? :read, category %>
-          <td><%= link_to 'Show', category %></td>
-        <% end %>
-        <% if can? :update, category %>
-          <td><%= link_to 'Edit', edit_category_path(category) %></td>
-        <% end %>
-        <% if can? :destroy, category %>
-          <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="col-md-4">
+    <div class="page-header">
+      <h3>Trending Article</h3>
+    </div>
+  </div>
+</div>
 
 <br>
 <% if can? :create, Category.new %>
-  <%= link_to 'New Category', new_category_path %>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="addCategoryBtn">
+      <i class="glyphicon glyphicon-plus"></i> Add Category
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add Category</h4>
+          </div>
+          <div class="modal-body">
+            <div id="errorMsg"></div>
+            <%= render 'form' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%#= link_to new_category_path, class: "btn btn-primary" do %>
+    <!-- <i class="glyphicon glyphicon-plus"></i> Add Category -->
+  <%# end %>
 <% end %>
+
+
+<script>
+
+  $(document).ready(function(){
+    $('#listCategories').DataTable();
+      $('#addCategoryBtn').on('click', function(){
+        setTimeout(function(){
+          $('#category_name').focus();
+        }, 1000);
+      });
+  });
+</script>
+
+
+
+
+

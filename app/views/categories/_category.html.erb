@@ -1,0 +1,10 @@
+<tr>
+  <td><%= link_to @category.name, @category %></td>
+    <td>
+	    <% if can? :destroy, @category %>
+	        <%= link_to @category, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" do %>
+	        	<i class="glyphicon glyphicon-trash"></i>
+	      	<% end %>
+  		<% end %>
+    </td>
+</tr>

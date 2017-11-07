@@ -9,7 +9,7 @@ class Ability
         can :manage, [Category, Article, User]
     elsif user.role? "author"
         can :read, [Category, Article]
-        can :read, Article
+        can :create, Article
         can [:update, :destroy], Article do |article|
             article.user_id == user.id
         end

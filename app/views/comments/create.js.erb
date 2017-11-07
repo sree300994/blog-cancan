@@ -1,0 +1,6 @@
+<% if @comment.errors.any? %>
+	$('#errorMsg').html("<%= escape_javascript render 'errors' %>");
+<% else %>
+	$('#new_comment')[0].reset();
+	$('#commentsList').append("<%= escape_javascript render 'comments' %>");
+<% end %>

@@ -1,31 +1,74 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-8">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/articles">Articles</a></li>
+        <li class="active"><%= @article.title %></li>
+      </ol>
+    <div class="page-header">
+      <h4><%= link_to @article.title, @article %></h4>
 
-<p>
-  <strong>Title:</strong>
-  <%= @article.title %>
-</p>
+      <div class="col-md-4">
+        <i class="glyphicon glyphicon-user"></i> <%= @article.user.email %>
+      </div>
 
-<p>
-  <strong>Body:</strong>
-  <%= @article.body %>
-</p>
+      <div class="col-md-4">
+        <i class="glyphicon glyphicon-tags"></i> <%= @article.categories.pluck(:name).join(", ") %>
+      </div>
 
-<p>
-  <strong>Published date:</strong>
-  <%= @article.published_date %>
-</p>
+      <div class="col-md-4">
+        <i class="glyphicon glyphicon-time"></i> <%= @article.published_date.strftime("%d %B %Y") %>
+      </div>
+      <br/>
+    </div>
+    <img src="http://via.placeholder.com/800x400" class="img-responsive" alt="Responsive image">
+    <p class="text-justify">
+      <%= @article.body %>
+    </p>
 
-<p>
-  <strong>User:</strong>
-  <%= @article.user_id %>
-</p>
+    <h2>Comments</h2>
 
-<p>
-  <strong>Allow comments:</strong>
-  <%= @article.allow_comments %>
-</p>
+    <div id="commentsList">
+      <% @article.comments.each do |comment| %>
+        <div class="media">
+          <div class="media-left media-middle">
+            <a href="#">
+              <img class="media-object" src="http://via.placeholder.com/64x64" alt="...">
+            </a>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading"><%= comment.user.email %></h4>
+            <b><%= comment.title %></b> <br/>
+            <%= comment.body %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <h2>Add Comment</h2>
+    <div id="errorMsg"></div>
+    <% if user_signed_in? %>
+      <%= render './comments/form' %>
+    <% else %>
+      <p>You need to sign in beforing adding</p>
+    <% end %>
+  </div>
+
+  <div class="col-md-4">
+    
+  </div>
+</div>
+
 
 <% if can? :update, @article %>
-  <%= link_to 'Edit', edit_article_path(@article) %> |
+  <%= link_to edit_article_path(@article), class: "btn btn-primary" do %>
+    <i class="glyphicon glyphicon-edit"></i>
+  <% end %> |
 <% end %>
-<%= link_to 'Back', articles_path %>
+<%= link_to articles_path, class: "btn btn-primary" do %>
+  <i class="glyphicon glyphicon-hand-left"></i>
+<% end %>
+
+
+
+

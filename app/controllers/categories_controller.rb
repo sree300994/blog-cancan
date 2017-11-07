@@ -1,17 +1,19 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   load_and_authorize_resource
-  before_action :set_category, only: [:show, :edit, :update, :destroy]
+  before_action :set_category, only: [:edit, :update, :destroy]
 
   # GET /categories
   # GET /categories.json
   def index
     @categories = Category.all
+    @category = Category.new
   end
 
   # GET /categories/1
   # GET /categories/1.json
   def show
+    @category = Category.friendly.find(params[:id])
   end
 
   # GET /categories/new
@@ -32,9 +34,11 @@ class CategoriesController < ApplicationController
       if @category.save
         format.html { redirect_to @category, notice: 'Category was successfully created.' }
         format.json { render :show, status: :created, location: @category }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -46,9 +50,11 @@ class CategoriesController < ApplicationController
       if @category.update(category_params)
         format.html { redirect_to @category, notice: 'Category was successfully updated.' }
         format.json { render :show, status: :ok, location: @category }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
